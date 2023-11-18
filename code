@@ -1,0 +1,15 @@
+import manganite
+%load_ext manganite
+
+url = "https://www.dl.dropboxusercontent.com/scl/fi/vkwffpdw6rvlxug3einxc/Luxembourg-export-between-2010-and-2020.csv?rlkey=2jfcgis7vbovlkr9srxzkm5cj&dl=1"
+
+df_1 = pd.read_csv(url)
+
+df_1 = df_1.drop('Code', axis=1)
+df_1 = df_1.rename(columns={'Current Gross Export': 'Gross Export in USD'})
+df_1['Gross Export in USD'] = df_1['Gross Export in USD'].str.replace("$", "")
+df_1['Gross Export in USD'] = df_1['Gross Export in USD'].str.replace('M', 'e6').str.replace('B', 'e9')
+df_1['Gross Export in USD'] = pd.to_numeric(df_1['Gross Export in USD'], errors='coerce').astype('Int64')
+
+
+display(df_1)
